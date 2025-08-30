@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Wellness 2070{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card futuristic-card">
+            <div class="card-header">
+                <h3 class="text-center">🔐 Neural Authentication</h3>
+                <p class="text-center mb-0">Access your wellness dashboard</p>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Bio-Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Neural Security Code</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        🧠 Authenticate Neural Profile
+                    </button>
+                </form>
+                
+                <hr>
+                <div class="text-center">
+                    <p>New to Wellness 2070? <a href="{{ url_for('register') }}">Create neural profile</a></p>
+                </div>
+                
+                <div class="mt-4 p-3" style="background: rgba(0, 255, 127, 0.1); border-radius: 10px;">
+                    <h6>🚀 Demo Features:</h6>
+                    <ul class="small mb-0">
+                        <li>AI wellness plan generation</li>
+                        <li>Voice & brain interface simulation</li>
+                        <li>VR therapy content access</li>
+                        <li>Neural mood tracking</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

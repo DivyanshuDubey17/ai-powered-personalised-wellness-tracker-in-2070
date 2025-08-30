@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card futuristic-card">
+            <div class="card-header">
+                <h3>🧠 Neural Wellness Dashboard</h3>
+                <p>Welcome back, {{ current_user.username }}! Your AI assistant is ready.</p>
+            </div>
+            <div class="card-body">
+                
+                <!-- NEW: Feelings Description Section -->
+                <div class="mb-4">
+                    <h5>💭 Describe Your Current Feelings</h5>
+                    <p class="small text-muted">Tell our AI how you're feeling today for more personalized recommendations</p>
+                    <textarea class="form-control mb-3" id="feelingsText" rows="4" 
+                              placeholder="Describe how you're feeling today, any stresses, concerns, or goals you have. The more detail you provide, the better our AI can help you..."></textarea>
+                    <button id="micBtn" type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Speak your feelings"> 🎤 Speak </button>
+                    <button class="btn btn-info btn-sm" onclick="analyzeFeelings()">
+                        🤖 Analyze My Feelings
+                    </button>
+                </div>
+
+                <!-- Mood Analysis (Enhanced) -->
+                <div class="mb-4">
+                    <h5>🔬 Neural Mood Analysis</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="range-container">
+                                <label><strong>Mood Score (1-10)</strong></label>
+                                <input type="range" class="form-range" id="moodScore" min="1" max="10" value="5">
+                                <div class="text-center mt-2">
+                                    <span class="badge bg-primary" id="moodValue">5</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="range-container">
+                                <label><strong>Stress Level (1-10)</strong></label>
+                                <input type="range" class="form-range" id="stressLevel" min="1" max="10" value="5">
+                                <div class="text-center mt-2">
+                                    <span class="badge bg-warning" id="stressValue">5</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="range-container">
+                                <label><strong>Energy Level (1-10)</strong></label>
+                                <input type="range" class="form-range" id="energyLevel" min="1" max="10" value="5">
+                                <div class="text-center mt-2">
+                                    <span class="badge bg-success" id="energyValue">5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <button class="btn btn-primary btn-lg me-2" onclick="generateAIWellnessPlan()">
+                            🤖 Generate AI Wellness Plan
+                        </button>
+                        <button class="btn btn-secondary me-2" onclick="logMood()">
+                            📊 Log Mood Data
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interface Controls -->
+                <div class="mb-4">
+                    <h5>🎛️ Future Interface Controls</h5>
+                    <div class="text-center">
+                        <button class="btn btn-info me-2" onclick="startVoiceCommand()">
+                            🎤 Activate Voice Command
+                        </button>
+                        <button class="btn btn-warning" onclick="simulateBrainInterface()">
+                            🧠 Simulate Brain Interface
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Current AI Wellness Plan Display -->
+                {% if plan %}
+                <div class="wellness-plan">
+                    <h5>🎯 Your AI-Generated Wellness Plan</h5>
+                    
+                    {% if plan.personalized_insights %}
+                    <div class="insights-section mb-3 p-3" style="background: rgba(0, 255, 127, 0.15); border-radius: 10px;">
+                        <h6>🔍 Personalized Insights</h6>
+                        <p>{{ plan.personalized_insights }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h6>🧘 Mental Health</h6>
+                            <ul class="list-unstyled">
+                                {% for item in plan.mental_health_plan %}
+                                    <li class="mb-2">• {{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>💪 Fitness</h6>
+                            <ul class="list-unstyled">
+                                {% for item in plan.fitness_plan %}
+                                    <li class="mb-2">• {{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>🥗 Nutrition</h6>
+                            <ul class="list-unstyled">
+                                {% for item in plan.nutrition_plan %}
+                                    <li class="mb-2">• {{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    {% if plan.motivation_message %}
+                    <div class="motivation-section mt-3 p-3" style="background: rgba(0, 191, 255, 0.15); border-radius: 10px;">
+                        <h6>💪 Motivation</h6>
+                        <p><em>{{ plan.motivation_message }}</em></p>
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="text-center p-4" style="background: rgba(255, 255, 255, 0.05); border-radius: 15px;">
+                    <h6>🎯 No AI Wellness Plan Generated Yet</h6>
+                    <p>Describe your feelings and set your mood levels above to generate your first AI-powered wellness plan!</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <!-- VR Content -->
+        <div class="card futuristic-card mb-4">
+            <div class="card-header">
+                <h5>🥽 VR Therapy & Meditation Hub</h5>
+            </div>
+            <div class="card-body">
+                {% for content in vr_content %}
+                <div class="vr-item mb-3 p-3 border rounded">
+                    <h6>{{ content.title }}</h6>
+                    <p class="small">{{ content.description }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-info">{{ content.duration }} min</span>
+                        <button class="btn btn-success btn-sm" onclick="startVRSession('{{ content.id }}')">
+                            ▶️ Start Session
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Recent Feelings Analysis -->
+        {% if feelings %}
+        <div class="card futuristic-card">
+            <div class="card-header">
+                <h5>💭 Recent Feelings Analysis</h5>
+            </div>
+            <div class="card-body">
+                {% for feeling in feelings %}
+                <div class="feeling-item mb-3 p-2 border rounded">
+                    <p class="small mb-1">{{ feeling.created_date.strftime('%m/%d %H:%M') }}</p>
+                    <p class="mb-1">{{ feeling.feelings_text[:100] }}...</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Response Area -->
+<div id="responseArea" class="mt-4"></div>
+{% endblock %}

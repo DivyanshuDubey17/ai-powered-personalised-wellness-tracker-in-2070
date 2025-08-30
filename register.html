@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Wellness 2070{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card futuristic-card">
+            <div class="card-header">
+                <h3 class="text-center">🧠 Neural Registration</h3>
+                <p class="text-center mb-0">Join the future of wellness</p>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Neural ID (Username)</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Bio-Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="age" class="form-label">Biological Age</label>
+                        <input type="number" class="form-control" id="age" name="age" min="18" max="150" value="25">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="fitness_level" class="form-label">Current Fitness Level</label>
+                        <select class="form-control" id="fitness_level" name="fitness_level">
+                            <option value="beginner">Neural Beginner</option>
+                            <option value="intermediate">Cyber Intermediate</option>
+                            <option value="advanced">Quantum Advanced</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="health_goals" class="form-label">Wellness Goals</label>
+                        <textarea class="form-control" id="health_goals" name="health_goals" rows="3" placeholder="Describe your 2070 wellness aspirations..."></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Neural Security Code</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        🚀 Initialize Neural Profile
+                    </button>
+                </form>
+                
+                <hr>
+                <div class="text-center">
+                    <p>Already have a neural profile? <a href="{{ url_for('login') }}">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
